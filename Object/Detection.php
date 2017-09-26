@@ -1,14 +1,21 @@
 <?php
-
 namespace App\Libraries\Famous\Aws\Object;
 
 use Aws\Rekognition\RekognitionClient;
 use Session;
 
+/**
+ * Class Detection
+ * @package App\Libraries\Famous\Aws\Object
+ */
 class Detection
 {
     protected $_instance = null;
 
+    /**
+     * Detection constructor.
+     * @param RekognitionClient $instance
+     */
     public function __construct(RekognitionClient $instance)
     {
         $this->_instance =  $instance;
@@ -16,6 +23,11 @@ class Detection
         return $this;
     }
 
+    /**
+     * Detect all the label in a picture
+     * @param $photo : path to the photo on the S3 Bucket
+     * @return \Aws\Result|null
+     */
     public function detect( $photo) {
 
         try {

@@ -4,12 +4,20 @@ namespace App\Libraries\Famous\Aws\Face;
 
 use Aws\Rekognition\RekognitionClient;
 
+/**
+ * Class Comparison
+ * @package App\Libraries\Famous\Aws\Face
+ */
 class Comparison
 {
     protected $_instance = null;
-    protected $collectionId = 'MemoriesFacesCollections';
+    protected $collectionId = 'FacesCollections';
 
 
+    /**
+     * Comparison constructor.
+     * @param RekognitionClient $instance
+     */
     public function __construct(RekognitionClient $instance)
     {
         $this->_instance =  $instance;
@@ -17,19 +25,9 @@ class Comparison
         return $this;
     }
 
-    protected function createCollection() {
-        try {
-            $result = $this->_instance->createCollection([
-                'CollectionId'  => $this->collectionId
-            ]);
-        } catch (\Exception $e) {
-            \Log::error('Error create collection : ' . $e->getMessage());
-            $result = null;
-        }
-
-        return $result;
-    }
-
+    /**
+     * Create a collections of faces.  Use setCollectionName( $name ) to set a custom name
+     */
     public function createCollectionIfNotExists() {
 
         try {
@@ -47,6 +45,26 @@ class Comparison
         }
     }
 
+    /**
+     * @return \Aws\Result|null
+     */
+    protected function createCollection() {
+        try {
+            $result = $this->_instance->createCollection([
+                'CollectionId'  => $this->collectionId
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Error create collection : ' . $e->getMessage());
+            $result = null;
+        }
+
+        return $result;
+    }
+
+    /**
+     * Remove all the faces from a collection
+     * @return \Aws\Result|null
+     */
     public function clearCollection() {
         try {
             $result = $this->_instance->deleteCollection([
@@ -61,6 +79,12 @@ class Comparison
         return $result;
     }
 
+    /**
+     * Index faces in an image
+     * @param $path to the image on the S3 bucket
+     * @param $externalImageId Id to indentify the image later
+     * @return \Aws\Result|null
+     */
     public function indexFaces( $path, $externalImageId) {
 
         try {
@@ -83,7 +107,12 @@ class Comparison
         return $result;
     }
 
-    public function searchFacesByImage( $photo) {
+    /**
+     * Return matching faces by sending a path to a image on the S3 bucket
+     * @param $path
+     * @return \Aws\Result|null
+     */
+    public function searchFacesByImage( $path ) {
 
         try {
             $result = $this->_instance->searchFacesByImage([
@@ -91,7 +120,7 @@ class Comparison
                 'Image' => [
                     'S3Object' => [
                         'Bucket' => env('S3_BUCKET'),
-                        'Name' => $this->photo
+                        'Name' => $path
                     ],
                 ],
             ]);
@@ -103,6 +132,11 @@ class Comparison
         return $result;
     }
 
+    /**
+     * Return matching faces by sending a face ID (returned during the index operation)
+     * @param $faceId
+     * @return \Aws\Result|null
+     */
     public function searchFaces( $faceId) {
         try {
             $result = $this->_instance->searchFaces([
@@ -117,5 +151,12 @@ class Comparison
         }
 
         return $result;
+    }
+
+    /**
+     * @param $name
+     */
+    public function setCollectionName( $name ) {
+        $this->collectionId = $name;
     }
 }

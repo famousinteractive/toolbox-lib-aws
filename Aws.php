@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Libraries\Famous\Aws;
 
 use App\Libraries\Famous\Aws\Face\Comparison;
@@ -7,10 +6,17 @@ use App\Libraries\Famous\Aws\Face\Recognition;
 use App\Libraries\Famous\Aws\Object\Detection;
 use Aws\Rekognition\RekognitionClient;
 
+/**
+ * Class Aws
+ * @package App\Libraries\Famous\Aws
+ */
 class Aws
 {
     protected $_instance = null;
 
+    /**
+     * Aws constructor.
+     */
     public function __construct()
     {
         $this->_instance =  new RekognitionClient([
@@ -25,16 +31,23 @@ class Aws
         return $this;
     }
 
-
+    /**
+     * @return Recognition
+     */
     public function getFaceDetection() {
         return new Recognition($this->_instance);
     }
 
-
+    /**
+     * @return Comparison
+     */
     public function getFaceComparison() {
         return new Comparison($this->_instance);
     }
 
+    /**
+     * @return Detection
+     */
     public function getObjectDetection() {
         return new Detection($this->_instance);
     }

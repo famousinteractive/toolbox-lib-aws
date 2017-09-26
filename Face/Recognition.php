@@ -4,10 +4,18 @@ namespace App\Libraries\Famous\Aws\Face;
 
 use Aws\Rekognition\RekognitionClient;
 
+/**
+ * Class Recognition
+ * @package App\Libraries\Famous\Aws\Face
+ */
 class Recognition
 {
     protected $_instance = null;
 
+    /**
+     * Recognition constructor.
+     * @param RekognitionClient $instance
+     */
     public function __construct(RekognitionClient $instance)
     {
         $this->_instance =  $instance;
@@ -16,7 +24,8 @@ class Recognition
     }
 
     /**
-     * @param string $photoName
+     * Return all faces detail on a picture
+     * @param string $photoName Path of the picture on the S3 bucket
      * @return \Aws\Result|null
      */
     public function detectFaces( $photoName) {
