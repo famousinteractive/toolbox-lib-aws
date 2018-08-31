@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Libraries\Famous\Aws\Face;
+namespace App\Libraries\Aws\Face;
 
 use Aws\Rekognition\RekognitionClient;
 

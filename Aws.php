@@ -1,9 +1,9 @@
 <?php
-namespace App\Libraries\Famous\Aws;
+namespace App\Libraries\Aws;
 
-use App\Libraries\Famous\Aws\Face\Comparison;
-use App\Libraries\Famous\Aws\Face\Recognition;
-use App\Libraries\Famous\Aws\Object\Detection;
+use App\Libraries\Aws\Face\Comparison;
+use App\Libraries\Aws\Face\Recognition;
+use App\Libraries\Aws\Object\Detection;
 use Aws\Rekognition\RekognitionClient;
 
 /**

@@ -1,5 +1,5 @@
 <?php
-namespace App\Libraries\Famous\Aws\Object;
+namespace App\Libraries\Aws\Object;
 
 use Aws\Rekognition\RekognitionClient;
 use Session;
